@@ -35,7 +35,7 @@ class Game():
         elif(winner.split()[0] == 'Computer'):
             self.computer_score +=1
     
-    def run_game(self):
+    """ def run_game(self):
         alive = True
         while alive:
             player_turn = self.enter_turn()
@@ -48,4 +48,7 @@ class Game():
             else:
                 result = self.turns_comparison(player_turn.title())
                 print(result)
-                self.score_calc(result)
+                self.score_calc(result) """
+    
+    def run_game(self):
+        pass
