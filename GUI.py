@@ -27,14 +27,14 @@ class game_GUI():
         #computer turns
         self.computer_turn_frame = tk.Frame(self.turns_frame)
         self.computer_turn_label = tk.Label(self.computer_turn_frame,font=self.font_Montserrat,text='Computer Turn')
-        self.computer_turn_field = tk.Entry(self.computer_turn_frame)
+        self.computer_turn_field = tk.Entry(self.computer_turn_frame,)
         self.computer_turn_label.pack(side='top')
         self.computer_turn_field.pack(side='top')
         self.computer_turn_frame.pack(side='left',padx=10)
         #user turns
         self.player_turn_frame = tk.Frame(self.turns_frame)
         self.player_turn_label = tk.Label(self.player_turn_frame,font=self.font_Montserrat,text='Player Turn')
-        self.player_turn_field = tk.Entry(self.player_turn_frame)
+        self.player_turn_field = tk.Entry(self.player_turn_frame,)
         self.player_turn_label.pack(side='top')
         self.player_turn_field.pack(side='top')
         self.player_turn_frame.pack(side='left',padx=10)
@@ -44,7 +44,7 @@ class game_GUI():
         self.winner_frame = tk.Frame(self.root)
         #winner field
         self.winner_label = tk.Label(self.winner_frame,font=self.font_Montserrat,text='Winner')
-        self.winner_field = tk.Entry(self.winner_frame)
+        self.winner_field = tk.Entry(self.winner_frame,)
         self.winner_label.pack(side='top')
         self.winner_field.pack(side='top')
         self.winner_frame.pack(side='top',pady=10)
@@ -54,14 +54,14 @@ class game_GUI():
         #computer score
         self.computer_score_frame = tk.Frame(self.score_frame)
         self.computer_score_label = tk.Label(self.computer_score_frame,font=self.font_Montserrat,text='Computer Score')
-        self.computer_score_field = tk.Entry(self.computer_score_frame)
+        self.computer_score_field = tk.Entry(self.computer_score_frame,)
         self.computer_score_label.pack(side='top')
         self.computer_score_field.pack(side='top')
         self.computer_score_frame.pack(side='left',padx=10)
         #user score
         self.user_score_frame = tk.Frame(self.score_frame)
         self.user_score_label = tk.Label(self.user_score_frame,font=self.font_Montserrat,text='User Score')
-        self.user_score_field = tk.Entry(self.user_score_frame)
+        self.user_score_field = tk.Entry(self.user_score_frame,)
         self.user_score_label.pack(side='top')
         self.user_score_field.pack(side='top')
         self.user_score_frame.pack(side='left',padx=10)
@@ -71,16 +71,38 @@ class game_GUI():
     def select_section(self):
         #user btns
         self.select_frame = tk.Frame(self.root)
-        self.rock_btn = tk.Button(self.select_frame,image=self.rock_img_tk,)
-        self.paper_btn = tk.Button(self.select_frame,image=self.paper_img_tk)
-        self.scissors_btn = tk.Button(self.select_frame,image=self.scissors_img_tk)
+        self.rock_btn = tk.Button(self.select_frame,image=self.rock_img_tk,command=lambda : self.process_turn('Rock'))
+        self.paper_btn = tk.Button(self.select_frame,image=self.paper_img_tk,command=lambda : self.process_turn('Paper'))
+        self.scissors_btn = tk.Button(self.select_frame,image=self.scissors_img_tk,command=lambda : self.process_turn('Scissors'))
         self.rock_btn.pack(side='left',padx=10)
         self.paper_btn.pack(side='left',padx=10)
         self.scissors_btn.pack(side='left',padx=10)
         self.select_frame.pack(side='top',pady=10)
+
+    def game_controls(self):
+        self.controls_frame = tk.Frame(self.root)
+        self.end_btn = tk.Button(self.controls_frame,text='End Game',font=self.font_Montserrat)
+        self.end_btn.pack(side='top')
+        self.controls_frame.pack(side='top')
 
     def init_widgets(self):
         self.turns_section()
         self.winner_section()
         self.score_section()
         self.select_section()
+        self.game_controls()
+    
+    def process_turn(self,user_value):
+        result,scores = game.run_game(user_value)
+        winner, computer_turn = result
+        computer_score,player_score = scores
+        self.computer_turn_field.delete(0,tk.END)
+        self.computer_turn_field.insert(0,computer_turn)
+        self.player_turn_field.delete(0,tk.END)
+        self.player_turn_field.insert(0,user_value)
+        self.computer_score_field.delete(0,tk.END)
+        self.computer_score_field.insert(0,str(computer_score))
+        self.user_score_field.delete(0,tk.END)
+        self.user_score_field.insert(0,str(player_score))
+        self.winner_field.delete(0,tk.END)
+        self.winner_field.insert(0,str(winner))

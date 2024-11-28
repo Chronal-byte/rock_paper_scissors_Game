@@ -15,40 +15,21 @@ class Game():
         turn = self.turns[random.randint(0,2)]
         return turn
     
-    def enter_turn(self):
-        player_turn = (input('Enter your turn please: ')).strip().title()
-        if(player_turn in self.turns or player_turn == 'End'):
-            return player_turn
-    
     def turns_comparison(self,player_turn):
         computer_turn = self.computer_turn()
         if(computer_turn == player_turn):
-            return('Draw!')
+            return('Draw!',computer_turn)
         elif(computer_turn == self.variants[player_turn]):
-            return('Player wins!')
-        else:
-            return('Computer wins!')
-    
-    def score_calc(self,winner):
-        if(winner.split()[0] == 'Player'):
             self.player_score += 1
-        elif(winner.split()[0] == 'Computer'):
+            return('Player wins!',computer_turn)
+        else:
             self.computer_score +=1
+            return('Computer wins!',computer_turn)
     
-    """ def run_game(self):
-        alive = True
-        while alive:
-            player_turn = self.enter_turn()
-            if player_turn == 'End':
-                if(self.player_score > self.computer_score):
-                    print(f'The winner is Player with score {self.player_score}!')
-                else:
-                    print(f'The winner is Computer with score {self.computer_score}!')
-                alive = False
-            else:
-                result = self.turns_comparison(player_turn.title())
-                print(result)
-                self.score_calc(result) """
+    def score_calc(self):
+        return [self.computer_score,self.player_score]
     
-    def run_game(self):
-        pass
+    def run_game(self,user_value):
+        result = self.turns_comparison(user_value)
+        scores = self.score_calc()
+        return result,scores
