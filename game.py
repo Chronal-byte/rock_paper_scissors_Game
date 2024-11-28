@@ -33,3 +33,11 @@ class Game():
         result = self.turns_comparison(user_value)
         scores = self.score_calc()
         return result,scores
+    
+    def find_winner(self):
+        if(self.computer_score > self.player_score):
+            return f'The winner is Computer with score {self.computer_score}!'
+        elif(self.computer_score == self.player_score):
+            return f'Draw! Computer and Player have the same score : {self.computer_score}'
+        else:
+            return f'The winner is Player with score {self.player_score}'
